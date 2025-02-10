@@ -12,6 +12,7 @@ This service handles **trip search and booking**. It is the central service of a
 - Spring Data JPA
 - Reactive Programming
 - MySql Database
+- Liquibase
 - OpenApi/Swagger
 - Apache Kafka
 - Microservice architecture
