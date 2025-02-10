@@ -1,0 +1,49 @@
+version: '3.9'
+
+services:
+
+  mysql:
+    image: mysql:9.2.0
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: trip_db
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+    volumes:
+      - ./docker/mysql:/var/lib/mysql
+    networks:
+      - trip-network
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - "8080:8080"
+
+  tripservice:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        JAR_FILE: target/*.jar
+    ports:
+      - '8083:8083'
+    depends_on:
+      - mysql
+
+#  tripservice:
+#    container_name: trip-api
+#    image: trip/trip:1.0.0
+#    ports:
+#      - '8083:8083'
+#    depends_on:
+#      - mysql
+#    networks:
+#    - trip-network
+
+networks:
+  trip-network:
+    driver: bridge
